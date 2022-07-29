@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<!--
+* Copyright 2017 Agência para a Modernização Administrativa, IP.
+* Licenciado nos termos da EUPL, versão 1.1
+* A utilização desta obra está condicionada aos termos da
+ Licença.
+* É possível obter uma cópia da Licença em: http://ec.europa.eu/idabc/eupl.html
+* Salvo requisito da legislação aplicável ou acordo
+ expresso por escrito, o software distribuído nos termos
+ da Licença é distribuído SEM GARANTIAS OU CONDIÇÕES DE QUALQUER ESPÉCIE,
+ Expressas ou implícitas.
+*/ -->
+<html>
+	<head>
+		<title>Notícias - AMA Usabilidade</title>
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+		<meta content="initial-scale=1.0, width=device-width" name="viewport">
+		<link href="./images/favicon.ico" rel="Shortcut Icon">
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<link href="./css/main.css" rel="stylesheet" type="text/css">
+		<script lang="javascript" src="./js/xlsx.full.min.js"></script>
+		<script src="https://unpkg.com/lunr/lunr.js"></script>
+		<script src="./dist/bundle.js"></script>
+		  <script src="https://unpkg.com/page/page.js"></script>
+		  <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
+		  <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+		  <script type="text/javascript" src="https://rickharrison.github.io/validate.js/validate.min.js"></script>
+	</head>
+	<body>
+		<!--begin modal box-->
+		<style>
+			/* The Modal (background) */
+			.modal {
+			  display: none; /* Hidden by default */
+			  position: fixed; /* Stay in place */
+			  z-index: 1; /* Sit on top */
+			  padding-top: 100px; /* Location of the box */
+			  left: 0;
+			  top: 0;
+			  width: 100%; /* Full width */
+			  height: 100%; /* Full height */
+			  overflow: auto; /* Enable scroll if needed */
+			  background-color: rgb(0,0,0); /* Fallback color */
+			  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+			}
+			
+			/* Modal Content */
+			.modal-content {
+			  background-color: #fefefe;
+			  margin: 0;
+			  padding: 20px;
+			  border: 1px solid #888;
+			  width: 80%;
+			}
+			
+			/* The Close Button */
+			.close {
+			  color: #aaaaaa;
+			  float: right;
+			  font-size: 28px;
+			  font-weight: bold;
+			}
+			
+			.close:hover,
+			.close:focus {
+			  color: #000;
+			  text-decoration: none;
+			  cursor: pointer;
+			}
+			</style>
+		<div id="regis-modal" class="dialog-box-wrapper modal" style="display:none">
+			<div class="dialog-box modal-content">
+				<div class="close-dialog">
+					<i class="icon-remove-sign">&nbsp;</i>
+				</div>
+				<div class="dialog-header">
+					<i class="icone-icons">&nbsp;</i>
+					<h4>Registo de Novo Utilizador</h4>
+				</div>
+				<div class="dialog-body"></div>
+			</div>
+		</div>
+		<!--end modal box-->
+		<div class="search-box">
+			<div>
+		    	<i class="icon-remove">&nbsp;</i>
+		    	<input placeholder="Pesquisar..." type="text" /> <i class="icon-angle-right">&nbsp;</i>
+		    </div>
+		</div>
+		<div class="container-fluid" id="wrapper">
+			<header id="banner"> 
+				<div id="heading"> 
+					<nav class="horizontal-menu type2">
+						<div> 
+							<div class="lang-wrapper">
+								<i class="icon-globe"></i> 
+								<select id="selectLang"> 
+									<option value="en">EN</option>
+									<option value="pt">PT</option>
+								</select>
+							</div> 
+
+							<a href="./"><img src="https://static.wixstatic.com/media/5d46ae_e8d8e27385624347bf722c6927969084~mv2.jpg/v1/fill/w_60,h_84,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_e8d8e27385624347bf722c6927969084~mv2.webp" alt="AMA-Template" /></a>
+							<i class="icone-burguer"></i> 
+
+							<ul id="menulist"> 
+								<!--empty li to overcome vertical-align bug-->
+								<li class="lfr-nav-item" style="vertical-align:middle"></li>
+								<li class="lfr-nav-item" id="layout_0"> 
+									<a href="https://6c6ceda1-6b8d-42b2-bfc3-90984dd94c5a.filesusr.com/ugd/5d46ae_7d2459348158494782ff6ff4d8310373.pdf" target="_blank"><span>Covid</span></a> 
+								</li> 
+								<li class="lfr-nav-item selected active" id="layout_1"> 
+									<a href="./"><span>Início</span></a> 
+								</li> 
+								<li class="lfr-nav-item dropdown" id="layout_2"> 
+									<a class="dropdown-toggle" href="javascript:void(0);"><span>Apoio<b class="icon-caret-down"></b></span></a> 
+									<ul class="sub-menu"> 
+										<li class="lfr-nav-item" id="layout_3">
+											<a href="https://github.com/aecolos/aecolos" target="_blank">Q&A Forum</a>
+										</li> 
+										<li class="lfr-nav-item" id="layout_4">
+											<a href="./prof" target="_blank">Blog</a>
+										</li>
+										<li class="lfr-nav-item" id="layout_5">
+											<a href="./readme-template" target="_blank">Recursos Educativos</a> 
+										</li>
+										<li class="lfr-nav-item" id="layout_6">
+											<a href="https://github.com/aecolos/site/wiki" target="_blank">Wiki</a>
+										</li>
+										<!--<li class="lfr-nav-item" id="layout_10">
+											<a href="https://app.stackbit.com/studio/61995921e0667c00c8bdea40/" target="_blank">Stackbit</a>
+										</li>-->
+										<li class="lfr-nav-item" id="layout_11">
+											<a href="https://bardeen-c8a44e-0000.netlify.app/" target="_blank">CMS</a>
+										</li>
+									</ul>
+								</li>
+								<li class="lfr-nav-item" id="layout_1"> 
+									<a href="agrupamento.html"><span>Escola</span></a> 
+								</li>
+								<li class="lfr-nav-item" id="layout_1"> 
+									<a href="orgaos.html"><span>Orgãos</span></a> 
+								</li>
+								<!--<li class="lfr-nav-item" id="layout_7"> 
+									<a href="./pagina-de-texto"><span>Página Texto</span></a> 
+								</li> 
+								<li class="lfr-nav-item" id="layout_8">
+									<a href="./formulario"><span>Formulário</span></a>
+								</li>
+								<li class="lfr-nav-item" id="layout_9">
+									<a href="./noticias"><span>Notícias</span></a> 
+								</li>-->
+								<li class="lfr-nav-item dropdown" id="layout_10"> 
+									<a class="dropdown-toggle" href="javascript:void(0);"><span>Acesso<b class="icon-caret-down"></b></span></a> 
+									<div id="submenu" class="sub-menu">
+										<!--<div class="form-wrapper">
+											<div class="row-fluid">
+												<div class="span9">
+													<label class="animateInput">
+														<input id="signup-username" type="text" required placeholder="Username">
+														<span>Nome*</span>
+													</label>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span9">
+													<label class="animateInput">
+														<input id="signup-password" type="password" required placeholder="Password">
+														<span>Email*</span>
+													</label>
+												</div>
+											</div>
+											<div class="btnWrapper">
+												<button id="btnPrevious" class="button1">Sign</button>
+												<button id="btnNext" class="button">Register</button> 
+											</div>
+										</div>-->
+									</div>
+									<!--templates were here-->
+									<!--<div class="sub-menu">
+										<div id="login">
+											<label for="user">Nome</label>
+											<input type="text" value="" placeholder="Insira o seu username" name="user" />
+											<div>
+												<input type="radio" id="huey" name="drone" value="sqlite"
+													   checked>
+												<label for="huey">SQLite</label>
+												<input type="radio" id="dewey" name="drone" value="excel">
+												<label for="dewey">Excel</label>
+												<input type="radio" id="" name="drone" value="sso" disabled>
+												<label for="dewey">SSO</label>
+											  </div>
+											  
+											  <div>
+											  </div>
+											<button onclick=qsolver()>ok</button>
+										</div>
+										<div id="logout"></div>
+									</div>-->
+									<script>
+										function xls() {
+											var url = "usersdb.xlsx";
+
+											/* set up async GET request */
+											var req = new XMLHttpRequest();
+											req.open("GET", url, true);
+											req.responseType = "arraybuffer";
+
+											req.onload = function(e) {
+												var workbook = XLSX.read(req.response);
+
+												var first_sheet_name = workbook.SheetNames[0];
+												var address_of_cell = 'B2';
+
+												/* Get worksheet */
+												var worksheet = workbook.Sheets[first_sheet_name];
+
+												/* Find desired cell */
+												var desired_cell = worksheet[address_of_cell];
+												var A2 = worksheet['A2'];
+
+												/* Get the value */
+												//var desired_value = (desired_cell ? desired_cell.v : undefined);
+
+												let connected = false;
+
+												if(desired_cell && desired_cell.v === document.querySelector('#login > input').value && !connected){
+														connected = true;
+														document.querySelector('#login').style.display = "none";
+														let p = document.createElement('p');
+														p.innerText = `Parabéns, está agora conectado como ${desired_cell.v} com id ${A2.v}`;
+														let button = document.createElement('button');
+														button.innerText = "Logout";
+														button.onclick = function(){
+															document.querySelector('#login').style.display = "block";
+															document.querySelector('#logout').style.display = "none";
+															document.querySelector('#login > input').value = "";
+															connected = false;
+														}
+														document.querySelector('#logout').innerHTML = "";
+														document.querySelector('#logout').prepend(p, button);
+												}
+													else if(connected) {
+														document.querySelector('#login').style.display = "none";
+														let p = document.createElement('p');
+														p.innerText = `${document.querySelector('#login > input').value} já está connectado, faça logout para sair e entrar com outra conta se pretender`;
+														let button = document.createElement('button');
+														button.innerText = "Logout";
+														button.onclick = function(){
+															document.querySelector('#login').style.display = "block";
+															document.querySelector('#logout').style.display = "none";
+															document.querySelector('#login > input').value = "";
+															result = [];
+															connected = false;
+														}
+														document.querySelector('#logout').innerHTML = "";
+														document.querySelector('#logout').prepend(p, button);
+													} 
+													else if (document.querySelector('#login > input').value === "") {
+														document.querySelector('#logout').innerHTML = "Por favor preencha o campo Nome com o seu username";
+														document.querySelector('#logout').style.display = "block";
+													} else {
+														document.querySelector('#logout').innerHTML = `${document.querySelector('#login > input').value} não está registado`;
+														document.querySelector('#logout').style.display = "block";
+														document.querySelector('#login > input').value = "";
+													}
+											}
+
+											req.send();
+										}
+										function qsolver (ev) {
+											const rbs = document.querySelectorAll('input[type=radio][name=drone]');
+											for (const rb of rbs) {
+												if (rb.checked && rb.value === "excel") {
+													xls();
+													return;
+												}
+											}
+											//danger! sanitize user input before commit query
+											let result = window.query(document.querySelector('#login > input').value), connected = false;
+											result.then(resp => {
+												if (resp.length > 0 && !connected){
+													connected = true;
+													document.querySelector('#login').style.display = "none";
+													let p = document.createElement('p');
+													p.innerText = `Parabéns, está agora conectado como ${resp[0].name} com id ${resp[0].id}`;
+													let button = document.createElement('button');
+													button.innerText = "Logout";
+													button.onclick = function(){
+														document.querySelector('#login').style.display = "block";
+														document.querySelector('#logout').style.display = "none";
+														document.querySelector('#login > input').value = "";
+														result = [];
+														connected = false;
+													}
+													document.querySelector('#logout').innerHTML = "";
+													document.querySelector('#logout').prepend(p, button);
+												}
+												else if(connected) {
+													document.querySelector('#login').style.display = "none";
+													let p = document.createElement('p');
+													p.innerText = `${document.querySelector('#login > input').value} já está connectado, faça logout para sair e entrar com outra conta se pretender`;
+													let button = document.createElement('button');
+													button.innerText = "Logout";
+													button.onclick = function(){
+														document.querySelector('#login').style.display = "block";
+														document.querySelector('#logout').style.display = "none";
+														document.querySelector('#login > input').value = "";
+														result = [];
+														connected = false;
+													}
+													document.querySelector('#logout').innerHTML = "";
+													document.querySelector('#logout').prepend(p, button);
+												} 
+												else if (document.querySelector('#login > input').value === "") {
+													document.querySelector('#logout').innerHTML = "Por favor preencha o campo Nome com o seu username";
+												} else {
+													document.querySelector('#logout').innerHTML = `${document.querySelector('#login > input').value} não está registado`;
+													document.querySelector('#logout').style.display = "block";
+													document.querySelector('#login > input').value = "";
+												}
+											}).catch((err)=>{console.log(err);});
+											
+										}
+									</script>
+								</li>
+								<li class="lfr-nav-item dropdown" id="layout_2"> 
+									<a class="dropdown-toggle" href="javascript:void(0);"><span>Mais<b class="icon-caret-down"></b></span></a> 
+									<ul class="sub-menu"> 
+										<li class="lfr-nav-item" id="layout_3">
+											<a href="https://bibliotecacolos.wixsite.com/website" target="_blank">Biblioteca</a>
+										</li> 
+										<li class="lfr-nav-item" id="layout_4">
+											<a href="horarios.html">Horário Lectivo</a>
+										</li>
+										<li class="lfr-nav-item" id="layout_5">
+											<a href="horario.html">Horários Atendimento e Serviços</a> 
+										</li>
+										<li class="lfr-nav-item" id="layout_7">
+											<a href="https://aecolos.github.io/goodmira/" target="_blank">Goodmira</a> 
+										</li>
+										<!--<li class="lfr-nav-item" id="layout_6">
+											<a href="https://github.com/aecolos/site/wiki" target="_blank">Wiki</a>
+										</li>-->
+									</ul>
+								</li>
+								<li class="search-icon">
+									<i class="icone-search">&nbsp;</i>
+								</li> 
+								<script>
+									let docs = [{
+										"id": document.documentURI,
+										"txt": document.documentElement.innerText
+									}];
+									let idx = lunr(function () {
+										this.ref('id');
+										this.field('txt');
+
+										docs.forEach(function (doc) {
+											this.add(doc)
+										}, this)
+									});
+									document.querySelector('.icon-angle-right').addEventListener('click', function (evt){
+										//idx.search(document.querySelector('.search-box input').value);
+									});
+								</script>
+							</ul> 
+						</div> 
+					</nav> 
+				</div>
+			</header>
+			<div id="content">
+				<div class="top-banner"> 
+					<div class="initialTopBanner">
+						<div class="imgTopBanner" style="background-image: url(./images/banner_topo_news.jpg);"></div>
+						<div class="black-overlay"></div>
+						<div class="text-area">
+							<h1>NOTÍCIAS</h1>
+							<h3></h3>
+							<div class="description">Notícias do quotidiano do Agrupamento</div>
+						</div> 
+					</div> 
+				</div>
+				<div class="portlet-breadcrumb container-fluid">
+					<ul class="breadcrumb breadcrumb-vertical">
+						<li class="first">
+							<a href="./">Home</a>
+							<span>&gt;</span>
+						</li>
+						<li class="active last">
+							<a href="./news4.html">Notícias</a>
+							<span>&gt;</span>
+						</li> 
+					</ul>
+				</div>
+				<div id="listNoticiasWrapper">
+					<div class="maniFluid">
+						<div class="row-fluid">
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+									<div class="blue-overlay"></div>
+									<img alt="Noticia 1 Foto" src="https://static.wixstatic.com/media/5d46ae_021861c9e3264a1baf6bf4df62bfa695~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_021861c9e3264a1baf6bf4df62bfa695~mv2.png"> </div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>12 Dezembro 2018</span>
+									</div>
+									<div class="lead3">Partilha de sabores</div>
+									<div class="p2">Teve lugar no passado dia 11 de dezembro mais um momento de partilha de sabores.        
+                                        Desta vez com sabores de outros países. Cada vez mais os alunos se mostram recetivos a novas experiências alimentares.
+                                        Sopa, fruta, chá e bolo, tudo muito saudável e apetitoso!</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 2 Foto" src="https://static.wixstatic.com/media/5d46ae_d823cfb2f4714630aed75553b7d813cf~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_d823cfb2f4714630aed75553b7d813cf~mv2.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>12 Dezembro 2018</span>
+									</div>
+									<div class="lead3">Educação Ambiental</div>
+									<div class="p2">Os alunos do 5º ano construíram enfeites de Natal usando resíduos não orgânicos e recicláveis como culminar de aprendizagens no âmbito de Educação Ambiental procurando mostrar que o Natal não deve ser tão poluidor</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 3 Foto" src="https://static.wixstatic.com/media/5d46ae_f475223690614bdc995b2bb45c3094f8~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_f475223690614bdc995b2bb45c3094f8~mv2.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>12 Dezembro 2018</span>
+									</div>
+									<div class="lead3">ETAR de Vila Nova de Milfontes</div>
+									<div class="p2">No âmbito das disciplinas de Educação Ambiental de 5º e 7º ano e de Ciências Naturais de 5º ano realizou-se  no passado dia 10 de dezembro uma visita de estudo à ETAR de Vila Nova de Milfontes. Pretendeu-se consciencializar os alunos para a importância da preservação da água potável. Mesmo com um cheiro pouco agradável a visita foi muito bem sucedida.     Parabéns a todos</div>
+								</a>
+							</div>
+						</div>
+						<div class="row-fluid twoLinesCopy">
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 4 Foto" src="https://static.wixstatic.com/media/5d46ae_0f5d268a00c34a70954a9e4c1eb59ad7~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_0f5d268a00c34a70954a9e4c1eb59ad7~mv2.png">
+										</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>09 Dezembro 2018</span>
+									</div>
+									<div class="lead3">Presépio</div>
+									<div class="p2">O espírito natalício continua a reinar na nossa escola pelas mãos do JI de Colos, desta vez com a construção de um presépio com material reciclado para a participação da exposição em Odemira</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 5 Foto" src="https://static.wixstatic.com/media/5d46ae_0500190aac0d489f9d1d6c2765979522~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_0500190aac0d489f9d1d6c2765979522~mv2.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>08 Dezembro 2018</span>
+									</div>
+									<div class="lead3">É Natal, É Natal</div>
+									<div class="p2">O espírito natalício chegou à nossa escola, com as árvores feitas pelos alunos do JI de Colos com ajuda dos encarregados de educação</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 6 Foto" src="https://static.wixstatic.com/media/5d46ae_01c532e18a47431bbc3f5b132ca087db~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_01c532e18a47431bbc3f5b132ca087db~mv2.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>07 Dezembro 2018</span>
+									</div>
+									<div class="lead3">"tu vês"</div>
+									<div class="p2">“Tu vês”,  projeto inserido na flexibilidade do 7ºAno, contou esta semana com quatro atuações na nossa escola, tento tido como público toda a comunidade escolar, assim como alunos de outras escolas, de Odemira e Vila Nova de Milfontes.
+                                        Esta atividade foi dinamizada por Remi Gallet com a colaboração de todos os professores do conselho de turma</div>
+								</a>
+							</div>
+						</div>
+						<div class="row-fluid twoLinesCopy">
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 7 Foto" src="https://static.wixstatic.com/media/5d46ae_47c9b1b872df47e0a50b5662ceca22c5~mv2_d_4032_1960_s_2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_47c9b1b872df47e0a50b5662ceca22c5~mv2_d_4032_1960_s_2.jpg">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>06 Dezembro 2018</span>
+									</div>
+									<div class="lead3">1º Encontro de Badminton</div>
+									<div class="p2">No passado dia 5 de janeiro, decorreu em Odemira o 1º encontro de Desporto Escolar da modalidade de Badminton. A nossa escola foi representada por 14 alunos.
+                                        No qual se destaca a participação dos alunos: Daniel Candeias e Diogo Loures que ficaram em 1º e 2º lugar, respetivamente, no escalão de Iniciados. Os alunos Alexandre Ferreira e Sílvio Mockert que  ficaram nos 2º e 3º lugares no escalão de Juvenis; a aluna Helena Ventosa que ficou em 3º lugar no escalão de Iniciados.   
+                                        Esta atividade decorreu num clima de confraternização e competição entre as diversas escolas intervenientes</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 8 Foto" src="https://static.wixstatic.com/media/5d46ae_1b41b03f485e4265a1e4b0ad72eab16c~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_1b41b03f485e4265a1e4b0ad72eab16c~mv2.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>04 Dezembro 2018</span>
+									</div>
+									<div class="lead3">1º Encontro de Ténis de mesa</div>
+									<div class="p2">No passado dia 28 de Novembro, decorreu em Vila Nova Mil Fontes o 1º encontro de Desporto Escolar da modalidade de ténis de mesa. A nossa escola, foi representada por uma equipa de sete alunos. 
+                                        No qual se destaca, a participação do aluno, Afonso Raposo que ficou em 1º lugar no escalão de infantil B. Esta atividade, decorreu num clima de confraternização e competição entre as diversas escolas intervenientes</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 9 Foto" src="https://static.wixstatic.com/media/5d46ae_e9b95c71132a425fb78481a55398752b~mv2.png/v1/fill/w_537,h_280,al_c,q_85,usm_0.66_1.00_0.01/5d46ae_e9b95c71132a425fb78481a55398752b~mv2.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>07 Dezembro 2018</span>
+									</div>
+									<div class="lead3">Visita ao Lagar</div>
+									<div class="p2">E foi assim que no mês de Novembro o Jardim de infância e o 1º Ciclo de Colos participaram no projeto o Ciclo do azeite</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="pages-wrapper">
+					<a href="news3.html"><i class="icon-long-arrow-left">&nbsp;</i></a>
+					<a class="page" href="news.html"><span>1</span></a>
+					<a class="page" href="news1.html"><span>2</span></a>
+					<a class="page" href="news2.html"><span>3</span></a>
+					<a class="page" href="news3.html"><span>4</span></a>
+					<a class="page active" href="javascript:void(0);"><span>5</span></a>
+                    <a class="page" href="news5.html"><span>6</span></a>
+                    <a class="page" href="news6.html"><span>7</span></a>
+					<a href="news5.html"><i class="icon-long-arrow-right">&nbsp;</i></a>
+				</div>
+			</div>
+			<div id="newsletterWrapper">
+                <div class="newsletter-wrapper" style="text-align: center">
+                    <div class="newsletter-box">
+                        <a href="https://6c6ceda1-6b8d-42b2-bfc3-90984dd94c5a.filesusr.com/ugd/5d46ae_54b4e5cba8da446990f0e9031d54da35.pdf" target="_blank">
+                            <i class="icon-envelope-alt">&nbsp;</i>
+                            <span>Newsletter</span>
+                        </a> 
+                    </div>
+                </div>
+            </div>
+			<footer id="footer" style="padding:0 !important">
+				<div id="copyright">
+					<div class="container-fluid">
+						<div class="row-fluid footer-images-wrapper">
+							<div class="span2"> <a href="https://aecolos.edu.gov.pt/moodle/" target="_blank"><img alt="Moodle" src="https://static.wixstatic.com/media/5d46ae_0f9df6003e684be4a33c0c8a7813aa57~mv2.jpg/v1/fill/w_82,h_60,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_0f9df6003e684be4a33c0c8a7813aa57~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/inovaralunos/Inicial.wgx" target="_blank"><img alt="Inovar Alunos" src="https://static.wixstatic.com/media/5d46ae_3fed0dd6e7c448b492505b2ac65a7a92~mv2.jpg/v1/fill/w_205,h_68,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_3fed0dd6e7c448b492505b2ac65a7a92~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/inovarpaa/Inicial.wgx" target="_blank"><img alt="Inovar PAA" src="https://static.wixstatic.com/media/5d46ae_a38d4a09b0644f9e8b6308432696da48~mv2.jpg/v1/fill/w_205,h_70,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_a38d4a09b0644f9e8b6308432696da48~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/inovarconsulta/app/index.html#/login" target="_blank"><img alt="Inovar Consulta" src="https://static.wixstatic.com/media/5d46ae_753ed5f26eea40a5a6337f08afae7c07~mv2.jpg/v1/fill/w_210,h_60,al_c,lg_1,q_80/5d46ae_753ed5f26eea40a5a6337f08afae7c07~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/PortalUnicard" target="_blank"><img alt="Unicard" src="https://static.wixstatic.com/media/5d46ae_7d6968238a7e4129a4c6bc33300b50fd~mv2.png/v1/fill/w_199,h_89,al_c,q_85,usm_0.66_1.00_0.01/Unicard.webp"></a> </div>
+						</div>
+						<!--footer images -->
+						<div class="row-fluid">
+							<div class="span12">
+								<p>@2021 <strong>AEColos - Agrupamento de Escolas de Colos</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+		<div class="toTop"><i class="icon-angle-up"></i></div>
+
+		<script type="text/javascript" src="./js/jquery.bxslider.min.js"></script>
+		<script type="text/javascript" src="./js/select2.full.min.js"></script>
+		<script type="text/javascript" src="./js/main.js"></script>
+		<script>
+			//page.base('/prof');
+			page('/prof/:prof', function(ctx){
+				if(ctx.params.prof === 'aecolos')
+					page('/prof');
+			});
+			page();
+		</script>
+		<script>
+			let shroot = document.querySelector('#submenu').attachShadow({mode:'open'});
+			//let shcal = document.querySelector('#calwrap').attachShadow({mode:'open'});
+			fetch("./tmpls.html").then(function(resp){
+				resp.text().then(function(txt){
+					shroot.appendChild(jQuery.parseHTML(txt)[2].content.cloneNode(true));
+					//shcal.appendChild(jQuery.parseHTML(txt)[8].content.cloneNode(true));
+				});
+			});
+			//shroot.appendChild(document.querySelector('#tmpl_logform').content.cloneNode(true));
+		</script>
+		<script type="text/javascript">
+			userbase.init({ appId: 'f98d4fda-0171-466a-80a5-aa23799653c9' })
+		</script>
+</html>

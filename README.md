@@ -1,15 +1,49 @@
-# Sinopse
-Elementos de código que servem como base para desenvolver um site html que cumpra princípios básicos de usabilidade
-# Exemplo de código
-Disponibilizamos um template construído com componentes HTML,CSS e Javascript.
-Este projecto é flexível, permitindo-lhe adicionar e remover componentes de forma a que o resultado final vá de encontro à função pensada e às suas necessidades particulares.
-# Considerações
-Para começar, é muito importante compreender que deverá ter um alojamento na internet ou um localhost configurado diretamente no seu computador, para poder emular o template HTML.
-# Motivações
-Este projeto tem por base recursos e ferramentas para melhorar a experiência de utilização de sítios públicos.
-# Testes
-Após instalação deste template, poderá testá-lo de forma autónoma, invocando o endereço da localização do seu template, diretamente no browser do seu computador.
-# Contribuições
-A AMA pretende também que este seja um processo colaborativo, pelo que acolhe todas as sugestões e contribuições que a comunidade queira fazer, incluindo o desenvolvimento de novos componentes ou temas que possam ser adaptados a outros sistemas de gestão de conteúdos. 
-# Licenças
-Licenciado nos termos da EUPL V.1.1
+# Changelog
+
+## 0.1.0
+
+Template AMA
+
+## 0.1.1
+
+Suporte a autenticação de acesso via sqlite, excel, ou sso (a implementar)
+
+## 0.1.2
+
+Adição de chat box e de fórum do tipo q&a via github issues
+
+## 0.1.3
+
+Incorporação de plataforma de blog para o corpo doçente do AE Colos disponível no menu **`Apoio`**, ainda sem a possibilidade de adicionar posts enquanto o backend não estiver operacional
+
+### 0.1.3.1
+
+Migração da autenticação para um servidor externo por indisponibilidade do serviço de contas Google
+
+## 0.2 (alpha release)
+
+Transferência de conteúdos do site antigo para a nova plataforma completa. Primeiro protótipo utilizável para testagem
+
+### 0.2.0.1
+
+Resolução de bug no popup do registo
+
+### 0.2.1.1
+
+Integração experimental de CMS Netlify
+
+### 0.2.1.2
+
+Criação da págima da newsletter e incorporação de templates underscorejs para o menu
+
+### 0.2.1.3
+
+Remoção do calendário lectivo da página principal e incorporação na página dos horários; alteração do calendário escolar tendo em conta a recuperação das aprendizagens em face do prolongamento da pausa de natal devido ao covid. Alteração do link CMS no menu para um protótipo de página de docente. Correcção de pequenos bugs em links das páginas de notícias
+
+### 0.2.1.4
+
+Remoção do git submodule academic-student-profile que crashava o deployment devido a erro no parsing de latex em markdown
+
+### 0.2.2
+
+Inserção de link para a página do motor de busca regional [Goodmira](https://aecolos.github.io/goodmira/) do projecto de final de semestre do 3º ciclo. Repo: [https://github.com/aecolos/goodmira](https://github.com/aecolos/goodmira)

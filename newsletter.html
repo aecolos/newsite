@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<!--
+* Copyright 2017 Agência para a Modernização Administrativa, IP.
+* Licenciado nos termos da EUPL, versão 1.1
+* A utilização desta obra está condicionada aos termos da
+ Licença.
+* É possível obter uma cópia da Licença em: http://ec.europa.eu/idabc/eupl.html
+* Salvo requisito da legislação aplicável ou acordo
+ expresso por escrito, o software distribuído nos termos
+ da Licença é distribuído SEM GARANTIAS OU CONDIÇÕES DE QUALQUER ESPÉCIE,
+ Expressas ou implícitas.
+*/ -->
+<html>
+	<head>
+		<title>Newsletter AEColos</title>
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+		<meta content="initial-scale=1.0, width=device-width" name="viewport">
+		<link href="./images/favicon.ico" rel="Shortcut Icon">
+		<link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href="./css/main.css" rel="stylesheet" type="text/css">
+		<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js"></script>
+		<!--<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>-->
+		<script lang="javascript" src="./js/xlsx.full.min.js"></script>
+		<script src="https://unpkg.com/lunr/lunr.js"></script>
+		<script src="./dist/bundle.js"></script>
+		  <script src="https://unpkg.com/page/page.js"></script>
+		  <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
+		  <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+		  <script type="text/javascript" src="https://rickharrison.github.io/validate.js/validate.min.js"></script>
+        <style>
+            #the-canvas {
+                border: 1px solid black;
+                direction: ltr;
+            }
+        </style>
+        <script>
+            fetch("./menu.html").then(function(resp){
+				resp.text().then(function(menu){
+					let htm = `<%=menu%>`;
+					let tmpl = _.template(htm);
+					//let hcompiler = Handlebars.compile(`{{menu}}`);
+
+					document.querySelector('#wrapper').insertAdjacentHTML('afterbegin',tmpl({menu:menu}));
+
+					let shroot = document.querySelector('#submenu').attachShadow({mode:'open'});
+					//let shcal = document.querySelector('#calwrap').attachShadow({mode:'open'});
+					shroot.appendChild(document.querySelector('#tmpl_logform').content.cloneNode(true));
+				});
+			});
+        </script>
+	</head>
+	<body>
+		<!--begin modal box-->
+		<style>
+			/* The Modal (background) */
+			.modal {
+			  display: none; /* Hidden by default */
+			  position: fixed; /* Stay in place */
+			  z-index: 1; /* Sit on top */
+			  padding-top: 100px; /* Location of the box */
+			  left: 0;
+			  top: 50px;
+			  width: 100%; /* Full width */
+			  height: 100%; /* Full height */
+			  overflow: auto; /* Enable scroll if needed */
+			  background-color: rgb(0,0,0); /* Fallback color */
+			  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+			}
+			
+			/* Modal Content */
+			.modal-content {
+			  background-color: #fefefe;
+			  margin: 0;
+			  padding: 20px;
+			  border: 1px solid #888;
+			  width: 80%;
+			}
+			
+			/* The Close Button */
+			.close {
+			  color: #aaaaaa;
+			  float: right;
+			  font-size: 28px;
+			  font-weight: bold;
+			}
+			
+			.close:hover,
+			.close:focus {
+			  color: #000;
+			  text-decoration: none;
+			  cursor: pointer;
+			}
+			</style>
+		<div id="regis-modal" class="dialog-box-wrapper modal" style="display:none">
+			<div class="dialog-box modal-content">
+				<div class="close">
+					<i class="icon-remove-sign">&nbsp;</i>
+				</div>
+				<div class="dialog-header">
+					<i class="icone-icons">&nbsp;</i>
+					<h4>Registo de Novo Utilizador</h4>
+				</div>
+				<div class="dialog-body"></div>
+			</div>
+		</div>
+		<script>
+			document.querySelector('.close').onclick = () => {
+				document.querySelector('#regis-modal').style.display = 'none';
+			};
+		</script>
+		<!--end modal box-->
+		<div class="search-box">
+			<div>
+		    	<i class="icon-remove">&nbsp;</i>
+		    	<input placeholder="Pesquisar..." type="text" /> <i class="icon-angle-right">&nbsp;</i>
+		    </div>
+		</div>
+		<div class="container-fluid" id="wrapper">
+			<!--<header id="banner"> 
+				<div id="heading"> 
+					<nav class="horizontal-menu type2">
+						<div> 
+							<div class="lang-wrapper">
+								<i class="icon-globe"></i> 
+								<select id="selectLang"> 
+									<option value="en">EN</option>
+									<option value="pt">PT</option>
+								</select>
+							</div> 
+
+							<a href="./"><img src="./images/company_logo.png" alt="AMA-Template" /></a> 
+							<i class="icone-burguer"></i> 
+
+							<ul> 
+								<li class="lfr-nav-item" id="layout_1"> 
+									<a href="./"><span>Início</span></a> 
+								</li> 
+								<li class="lfr-nav-item dropdown" id="layout_2"> 
+									<a class="dropdown-toggle" href="javascript:void(0);"><span>Menu Interior<b class="icon-caret-down"></b></span></a> 
+									<ul class="sub-menu"> 
+										<li class="lfr-nav-item" id="layout_3">
+											<a href="./link1">Link1</a>
+										</li> 
+										<li class="lfr-nav-item" id="layout_4">
+											<a href="./link2">Link2</a>
+										</li>
+										<li class="lfr-nav-item" id="layout_5">
+											<a href="./link3">Link3</a> 
+										</li>
+										<li class="lfr-nav-item" id="layout_6">
+											<a href="./link4">Link4</a>
+										</li> 
+									</ul>
+								</li>
+								<li class="lfr-nav-item" id="layout_7"> 
+									<a href="./pagina-de-texto"><span>Página Texto</span></a> 
+								</li> 
+								<li class="lfr-nav-item " id="layout_8">
+									<a href="./formulario"><span>Formulário</span></a>
+								</li>
+								<li class="lfr-nav-item" id="layout_9">
+									<a href="./noticias"><span>Notícias</span></a> 
+								</li>
+								<li class="search-icon">
+									<i class="icone-search">&nbsp;</i>
+								</li> 
+							</ul> 
+						</div> 
+					</nav> 
+				</div>
+			</header>-->
+			<div id="content">
+				<div class="top-banner"> 
+					<div class="initialTopBanner">
+						<div class="imgTopBanner" style="background-image: url(images/banner_contactos.jpg);"></div>
+						<div class="black-overlay"></div>
+						<div class="text-area">
+							<h1>NEWSLETTER</h1>
+							<h3></h3>
+							<!--<div class="description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud.</div>-->
+						</div> 
+					</div> 
+				</div>
+				<div class="portlet-breadcrumb container-fluid">
+					<ul class="breadcrumb breadcrumb-vertical">
+						<li class="first">
+							<a href="./">Home</a>
+							<span>&gt;</span>
+						</li>
+						<li class="active last">
+							<a href="./contactos">Newsletter</a>
+							<span>&gt;</span>
+						</li> 
+					</ul>
+				</div>
+
+				<div id="contactFormWrapper">
+				    <div class="container-fluid">
+				        <div class="row-fluid">
+				            <div class="span3">
+                                <h6>Arquivo</h6>
+				                <ol>
+                                    <li><a href="javascript:void(0)" onclick="newsl(event, 0)" style="font-weight:bold">Set/Out 2021</a></li>
+                                    <li><a>Nov/Dez 2021</a></li>
+                                </ol>
+				            </div>
+				            <div class="span9">
+				                <canvas id="the-canvas"></canvas>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				<script>
+				  // If absolute URL from the remote server is provided, configure the CORS
+                    // header on that server.
+                    var url = 'https://6c6ceda1-6b8d-42b2-bfc3-90984dd94c5a.filesusr.com/ugd/5d46ae_54b4e5cba8da446990f0e9031d54da35.pdf';
+                    let urls = ['https://6c6ceda1-6b8d-42b2-bfc3-90984dd94c5a.filesusr.com/ugd/5d46ae_54b4e5cba8da446990f0e9031d54da35.pdf'];
+
+                    // Loaded via <script> tag, create shortcut to access PDF.js exports.
+                    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+                    // The workerSrc property shall be specified.
+                    pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+                    function newsl(ev,n) {
+                        ev.preventDefault();
+                        url = urls[n];
+                        loadoc();
+                    }
+
+                    loadoc();
+
+                    function loadoc() {
+                        // Asynchronous download of PDF
+                        var loadingTask = pdfjsLib.getDocument(url);
+                        loadingTask.promise.then(function(pdf) {
+							console.log('PDF loaded');
+							
+							// Fetch the first page
+							var pageNumber = 1;
+							pdf.getPage(pageNumber).then(function(page) {
+								console.log('Page loaded');
+								
+								var scale = 1.5;
+								var viewport = page.getViewport({scale: scale});
+
+								// Prepare canvas using PDF page dimensions
+								var canvas = document.getElementById('the-canvas');
+								var context = canvas.getContext('2d');
+								canvas.height = viewport.height;
+								canvas.width = viewport.width;
+
+								// Render PDF page into canvas context
+								var renderContext = {
+								canvasContext: context,
+								viewport: viewport
+								};
+								var renderTask = page.render(renderContext);
+								renderTask.promise.then(function () {
+									console.log('Page rendered');
+								});
+							});
+							}, function (reason) {
+								// PDF loading error
+								console.error(reason);
+							});
+                    }
+				</script>
+				
+				<div id="newsletterWrapper">
+				    <div class="newsletter-wrapper">
+				        <div class="newsletter-box"> <i class="icon-envelope-alt">&nbsp;</i> <span>Newsletter</span>
+				            <div class="input-wrapper">
+				                <input type="email" id="emailNewsletter" placeholder="Insira o seu email..."> <i class="icon-angle-right">&nbsp;</i> </div>
+				        </div>
+				    </div>
+				</div>
+
+				<footer id="footer" style="padding:0 !important">
+				    <div id="copyright">
+				        <div class="container-fluid">
+				            <div class="row-fluid footer-images-wrapper">
+				                <div class="span2"> <a href="https://aecolos.edu.gov.pt/moodle/" target="_blank"><img alt="Moodle" src="https://static.wixstatic.com/media/5d46ae_0f9df6003e684be4a33c0c8a7813aa57~mv2.jpg/v1/fill/w_82,h_60,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_0f9df6003e684be4a33c0c8a7813aa57~mv2.webp"></a> </div>
+				                <div class="span2"> <a href="https://inovar.aecolos.pt/inovaralunos/Inicial.wgx" target="_blank"><img alt="Inovar Alunos" src="https://static.wixstatic.com/media/5d46ae_3fed0dd6e7c448b492505b2ac65a7a92~mv2.jpg/v1/fill/w_205,h_68,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_3fed0dd6e7c448b492505b2ac65a7a92~mv2.webp"></a> </div>
+				                <div class="span2"> <a href="https://inovar.aecolos.pt/inovarpaa/Inicial.wgx" target="_blank"><img alt="Inovar PAA" src="https://static.wixstatic.com/media/5d46ae_a38d4a09b0644f9e8b6308432696da48~mv2.jpg/v1/fill/w_205,h_70,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_a38d4a09b0644f9e8b6308432696da48~mv2.webp"></a> </div>
+				                <div class="span2"> <a href="https://inovar.aecolos.pt/inovarconsulta/app/index.html#/login" target="_blank"><img alt="Inovar Consulta" src="https://static.wixstatic.com/media/5d46ae_753ed5f26eea40a5a6337f08afae7c07~mv2.jpg/v1/fill/w_210,h_60,al_c,lg_1,q_80/5d46ae_753ed5f26eea40a5a6337f08afae7c07~mv2.webp"></a> </div>
+				                <div class="span2"> <a href="https://inovar.aecolos.pt/PortalUnicard" target="_blank"><img alt="Unicard" src="https://static.wixstatic.com/media/5d46ae_7d6968238a7e4129a4c6bc33300b50fd~mv2.png/v1/fill/w_199,h_89,al_c,q_85,usm_0.66_1.00_0.01/Unicard.webp"></a> </div>
+				            </div>
+				            <!--footer images -->
+				            <div class="row-fluid">
+				                <div class="span12">
+				                    <p>@2021 <strong>AEColos - Agrupamento de Escolas de Colos</strong>
+				                    </p>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</footer>
+			</div>
+		</div>
+		<div class="toTop"><i class="icon-angle-up"></i></div>
+
+		<script type="text/javascript" src="./js/jquery.bxslider.min.js"></script>
+		<script type="text/javascript" src="./js/select2.full.min.js"></script>
+		<script type="text/javascript" src="./js/main.js"></script>		
+	</body>
+</html>

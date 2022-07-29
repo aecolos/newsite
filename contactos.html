@@ -18,6 +18,8 @@
 		<link href="./images/favicon.ico" rel="Shortcut Icon">
 		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 		<link href="./css/main.css" rel="stylesheet" type="text/css">
+
+		<script src="https://unpkg.com/lunr/lunr.js"></script>
 	</head>
 	<body>
 		<div class="search-box">
@@ -27,7 +29,8 @@
 		    </div>
 		</div>
 		<div class="container-fluid" id="wrapper">
-			<header id="banner"> 
+			<div id="wrap"></div>
+			<!--<header id="banner"> 
 				<div id="heading"> 
 					<nav class="horizontal-menu type2">
 						<div> 
@@ -79,7 +82,7 @@
 						</div> 
 					</nav> 
 				</div>
-			</header>
+			</header>-->
 			<div id="content">
 				<div class="top-banner"> 
 					<div class="initialTopBanner">
@@ -288,5 +291,16 @@
 		<script type="text/javascript" src="./js/select2.full.min.js"></script>
 		<script type="text/javascript" src="./js/main.js"></script>		
 		<script src='https://www.google.com/recaptcha/api.js'></script>
+
+		<script>
+			/*fetch("./menu.html")
+				.then(response => {
+					return response.text()
+				})
+				.then(data => {
+					document.querySelector("#wrapper").innerHTML = data;
+				});*/
+			jQuery(document.querySelector("#wrap")).load('menu.html');
+		</script>
 	</body>
 </html>

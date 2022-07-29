@@ -1,0 +1,37 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"></script>
+</head>
+
+<body>
+
+    <textarea></textarea>
+
+    <script>
+            const el = document.querySelector('textarea');
+            const stackedit = new Stackedit();
+
+            // Open the iframe
+            stackedit.openFile({
+                name: 'Test', // with an optional filename
+                content: {
+                text: el.value // and the Markdown content.
+                }
+            });
+
+            // Listen to StackEdit events and apply the changes to the textarea.
+            stackedit.on('fileChange', (file) => {
+                el.value = file.content.text;
+            });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<!--
+* Copyright 2017 Agência para a Modernização Administrativa, IP.
+* Licenciado nos termos da EUPL, versão 1.1
+* A utilização desta obra está condicionada aos termos da
+ Licença.
+* É possível obter uma cópia da Licença em: http://ec.europa.eu/idabc/eupl.html
+* Salvo requisito da legislação aplicável ou acordo
+ expresso por escrito, o software distribuído nos termos
+ da Licença é distribuído SEM GARANTIAS OU CONDIÇÕES DE QUALQUER ESPÉCIE,
+ Expressas ou implícitas.
+*/ -->
+<html>
+	<head>
+		<title>Notícias - AMA Usabilidade</title>
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+		<meta content="initial-scale=1.0, width=device-width" name="viewport">
+		<link href="./images/favicon.ico" rel="Shortcut Icon">
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<link href="./css/main.css" rel="stylesheet" type="text/css">
+		<script lang="javascript" src="./js/xlsx.full.min.js"></script>
+		<script src="https://unpkg.com/lunr/lunr.js"></script>
+		<script src="./dist/bundle.js"></script>
+		  <script src="https://unpkg.com/page/page.js"></script>
+		  <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
+		  <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+		  <script type="text/javascript" src="https://rickharrison.github.io/validate.js/validate.min.js"></script>
+	</head>
+	<body>
+		<!--begin modal box-->
+		<style>
+			/* The Modal (background) */
+			.modal {
+			  display: none; /* Hidden by default */
+			  position: fixed; /* Stay in place */
+			  z-index: 1; /* Sit on top */
+			  padding-top: 100px; /* Location of the box */
+			  left: 0;
+			  top: 0;
+			  width: 100%; /* Full width */
+			  height: 100%; /* Full height */
+			  overflow: auto; /* Enable scroll if needed */
+			  background-color: rgb(0,0,0); /* Fallback color */
+			  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+			}
+			
+			/* Modal Content */
+			.modal-content {
+			  background-color: #fefefe;
+			  margin: 0;
+			  padding: 20px;
+			  border: 1px solid #888;
+			  width: 80%;
+			}
+			
+			/* The Close Button */
+			.close {
+			  color: #aaaaaa;
+			  float: right;
+			  font-size: 28px;
+			  font-weight: bold;
+			}
+			
+			.close:hover,
+			.close:focus {
+			  color: #000;
+			  text-decoration: none;
+			  cursor: pointer;
+			}
+			</style>
+		<div id="regis-modal" class="dialog-box-wrapper modal" style="display:none">
+			<div class="dialog-box modal-content">
+				<div class="close-dialog">
+					<i class="icon-remove-sign">&nbsp;</i>
+				</div>
+				<div class="dialog-header">
+					<i class="icone-icons">&nbsp;</i>
+					<h4>Registo de Novo Utilizador</h4>
+				</div>
+				<div class="dialog-body"></div>
+			</div>
+		</div>
+		<!--end modal box-->
+		<div class="search-box">
+			<div>
+		    	<i class="icon-remove">&nbsp;</i>
+		    	<input placeholder="Pesquisar..." type="text" /> <i class="icon-angle-right">&nbsp;</i>
+		    </div>
+		</div>
+		<div class="container-fluid" id="wrapper">
+			<header id="banner"> 
+				<div id="heading"> 
+					<nav class="horizontal-menu type2">
+						<div> 
+							<div class="lang-wrapper">
+								<i class="icon-globe"></i> 
+								<select id="selectLang"> 
+									<option value="en">EN</option>
+									<option value="pt">PT</option>
+								</select>
+							</div> 
+
+							<a href="./"><img src="https://static.wixstatic.com/media/5d46ae_e8d8e27385624347bf722c6927969084~mv2.jpg/v1/fill/w_60,h_84,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_e8d8e27385624347bf722c6927969084~mv2.webp" alt="AMA-Template" /></a>
+							<i class="icone-burguer"></i> 
+
+							<ul id="menulist"> 
+								<!--empty li to overcome vertical-align bug-->
+								<li class="lfr-nav-item" style="vertical-align:middle"></li>
+								<li class="lfr-nav-item" id="layout_0"> 
+									<a href="https://6c6ceda1-6b8d-42b2-bfc3-90984dd94c5a.filesusr.com/ugd/5d46ae_7d2459348158494782ff6ff4d8310373.pdf" target="_blank"><span>Covid</span></a> 
+								</li> 
+								<li class="lfr-nav-item selected active" id="layout_1"> 
+									<a href="./"><span>Início</span></a> 
+								</li> 
+								<li class="lfr-nav-item dropdown" id="layout_2"> 
+									<a class="dropdown-toggle" href="javascript:void(0);"><span>Apoio<b class="icon-caret-down"></b></span></a> 
+									<ul class="sub-menu"> 
+										<li class="lfr-nav-item" id="layout_3">
+											<a href="https://github.com/aecolos/aecolos" target="_blank">Q&A Forum</a>
+										</li> 
+										<li class="lfr-nav-item" id="layout_4">
+											<a href="./prof" target="_blank">Blog</a>
+										</li>
+										<li class="lfr-nav-item" id="layout_5">
+											<a href="./readme-template" target="_blank">Recursos Educativos</a> 
+										</li>
+										<li class="lfr-nav-item" id="layout_6">
+											<a href="https://github.com/aecolos/site/wiki" target="_blank">Wiki</a>
+										</li>
+										<!--<li class="lfr-nav-item" id="layout_10">
+											<a href="https://app.stackbit.com/studio/61995921e0667c00c8bdea40/" target="_blank">Stackbit</a>
+										</li>-->
+										<li class="lfr-nav-item" id="layout_11">
+											<a href="https://bardeen-c8a44e-0000.netlify.app/" target="_blank">CMS</a>
+										</li>
+									</ul>
+								</li>
+								<li class="lfr-nav-item" id="layout_1"> 
+									<a href="agrupamento.html"><span>Escola</span></a> 
+								</li>
+								<li class="lfr-nav-item" id="layout_1"> 
+									<a href="orgaos.html"><span>Orgãos</span></a> 
+								</li>
+								<!--<li class="lfr-nav-item" id="layout_7"> 
+									<a href="./pagina-de-texto"><span>Página Texto</span></a> 
+								</li> 
+								<li class="lfr-nav-item" id="layout_8">
+									<a href="./formulario"><span>Formulário</span></a>
+								</li>
+								<li class="lfr-nav-item" id="layout_9">
+									<a href="./noticias"><span>Notícias</span></a> 
+								</li>-->
+								<li class="lfr-nav-item dropdown" id="layout_10"> 
+									<a class="dropdown-toggle" href="javascript:void(0);"><span>Acesso<b class="icon-caret-down"></b></span></a> 
+									<div id="submenu" class="sub-menu">
+										<!--<div class="form-wrapper">
+											<div class="row-fluid">
+												<div class="span9">
+													<label class="animateInput">
+														<input id="signup-username" type="text" required placeholder="Username">
+														<span>Nome*</span>
+													</label>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span9">
+													<label class="animateInput">
+														<input id="signup-password" type="password" required placeholder="Password">
+														<span>Email*</span>
+													</label>
+												</div>
+											</div>
+											<div class="btnWrapper">
+												<button id="btnPrevious" class="button1">Sign</button>
+												<button id="btnNext" class="button">Register</button> 
+											</div>
+										</div>-->
+									</div>
+									<!--templates were here-->
+									<!--<div class="sub-menu">
+										<div id="login">
+											<label for="user">Nome</label>
+											<input type="text" value="" placeholder="Insira o seu username" name="user" />
+											<div>
+												<input type="radio" id="huey" name="drone" value="sqlite"
+													   checked>
+												<label for="huey">SQLite</label>
+												<input type="radio" id="dewey" name="drone" value="excel">
+												<label for="dewey">Excel</label>
+												<input type="radio" id="" name="drone" value="sso" disabled>
+												<label for="dewey">SSO</label>
+											  </div>
+											  
+											  <div>
+											  </div>
+											<button onclick=qsolver()>ok</button>
+										</div>
+										<div id="logout"></div>
+									</div>-->
+									<script>
+										function xls() {
+											var url = "usersdb.xlsx";
+
+											/* set up async GET request */
+											var req = new XMLHttpRequest();
+											req.open("GET", url, true);
+											req.responseType = "arraybuffer";
+
+											req.onload = function(e) {
+												var workbook = XLSX.read(req.response);
+
+												var first_sheet_name = workbook.SheetNames[0];
+												var address_of_cell = 'B2';
+
+												/* Get worksheet */
+												var worksheet = workbook.Sheets[first_sheet_name];
+
+												/* Find desired cell */
+												var desired_cell = worksheet[address_of_cell];
+												var A2 = worksheet['A2'];
+
+												/* Get the value */
+												//var desired_value = (desired_cell ? desired_cell.v : undefined);
+
+												let connected = false;
+
+												if(desired_cell && desired_cell.v === document.querySelector('#login > input').value && !connected){
+														connected = true;
+														document.querySelector('#login').style.display = "none";
+														let p = document.createElement('p');
+														p.innerText = `Parabéns, está agora conectado como ${desired_cell.v} com id ${A2.v}`;
+														let button = document.createElement('button');
+														button.innerText = "Logout";
+														button.onclick = function(){
+															document.querySelector('#login').style.display = "block";
+															document.querySelector('#logout').style.display = "none";
+															document.querySelector('#login > input').value = "";
+															connected = false;
+														}
+														document.querySelector('#logout').innerHTML = "";
+														document.querySelector('#logout').prepend(p, button);
+												}
+													else if(connected) {
+														document.querySelector('#login').style.display = "none";
+														let p = document.createElement('p');
+														p.innerText = `${document.querySelector('#login > input').value} já está connectado, faça logout para sair e entrar com outra conta se pretender`;
+														let button = document.createElement('button');
+														button.innerText = "Logout";
+														button.onclick = function(){
+															document.querySelector('#login').style.display = "block";
+															document.querySelector('#logout').style.display = "none";
+															document.querySelector('#login > input').value = "";
+															result = [];
+															connected = false;
+														}
+														document.querySelector('#logout').innerHTML = "";
+														document.querySelector('#logout').prepend(p, button);
+													} 
+													else if (document.querySelector('#login > input').value === "") {
+														document.querySelector('#logout').innerHTML = "Por favor preencha o campo Nome com o seu username";
+														document.querySelector('#logout').style.display = "block";
+													} else {
+														document.querySelector('#logout').innerHTML = `${document.querySelector('#login > input').value} não está registado`;
+														document.querySelector('#logout').style.display = "block";
+														document.querySelector('#login > input').value = "";
+													}
+											}
+
+											req.send();
+										}
+										function qsolver (ev) {
+											const rbs = document.querySelectorAll('input[type=radio][name=drone]');
+											for (const rb of rbs) {
+												if (rb.checked && rb.value === "excel") {
+													xls();
+													return;
+												}
+											}
+											//danger! sanitize user input before commit query
+											let result = window.query(document.querySelector('#login > input').value), connected = false;
+											result.then(resp => {
+												if (resp.length > 0 && !connected){
+													connected = true;
+													document.querySelector('#login').style.display = "none";
+													let p = document.createElement('p');
+													p.innerText = `Parabéns, está agora conectado como ${resp[0].name} com id ${resp[0].id}`;
+													let button = document.createElement('button');
+													button.innerText = "Logout";
+													button.onclick = function(){
+														document.querySelector('#login').style.display = "block";
+														document.querySelector('#logout').style.display = "none";
+														document.querySelector('#login > input').value = "";
+														result = [];
+														connected = false;
+													}
+													document.querySelector('#logout').innerHTML = "";
+													document.querySelector('#logout').prepend(p, button);
+												}
+												else if(connected) {
+													document.querySelector('#login').style.display = "none";
+													let p = document.createElement('p');
+													p.innerText = `${document.querySelector('#login > input').value} já está connectado, faça logout para sair e entrar com outra conta se pretender`;
+													let button = document.createElement('button');
+													button.innerText = "Logout";
+													button.onclick = function(){
+														document.querySelector('#login').style.display = "block";
+														document.querySelector('#logout').style.display = "none";
+														document.querySelector('#login > input').value = "";
+														result = [];
+														connected = false;
+													}
+													document.querySelector('#logout').innerHTML = "";
+													document.querySelector('#logout').prepend(p, button);
+												} 
+												else if (document.querySelector('#login > input').value === "") {
+													document.querySelector('#logout').innerHTML = "Por favor preencha o campo Nome com o seu username";
+												} else {
+													document.querySelector('#logout').innerHTML = `${document.querySelector('#login > input').value} não está registado`;
+													document.querySelector('#logout').style.display = "block";
+													document.querySelector('#login > input').value = "";
+												}
+											}).catch((err)=>{console.log(err);});
+											
+										}
+									</script>
+								</li>
+								<li class="lfr-nav-item dropdown" id="layout_2"> 
+									<a class="dropdown-toggle" href="javascript:void(0);"><span>Mais<b class="icon-caret-down"></b></span></a> 
+									<ul class="sub-menu"> 
+										<li class="lfr-nav-item" id="layout_3">
+											<a href="https://bibliotecacolos.wixsite.com/website" target="_blank">Biblioteca</a>
+										</li> 
+										<li class="lfr-nav-item" id="layout_4">
+											<a href="horarios.html">Horário Lectivo</a>
+										</li>
+										<li class="lfr-nav-item" id="layout_5">
+											<a href="horario.html">Horários Atendimento e Serviços</a> 
+										</li>
+										<li class="lfr-nav-item" id="layout_7">
+											<a href="https://aecolos.github.io/goodmira/" target="_blank">Goodmira</a> 
+										</li>
+										<!--<li class="lfr-nav-item" id="layout_6">
+											<a href="https://github.com/aecolos/site/wiki" target="_blank">Wiki</a>
+										</li>-->
+									</ul>
+								</li>
+								<li class="search-icon">
+									<i class="icone-search">&nbsp;</i>
+								</li> 
+								<script>
+									let docs = [{
+										"id": document.documentURI,
+										"txt": document.documentElement.innerText
+									}];
+									let idx = lunr(function () {
+										this.ref('id');
+										this.field('txt');
+
+										docs.forEach(function (doc) {
+											this.add(doc)
+										}, this)
+									});
+									document.querySelector('.icon-angle-right').addEventListener('click', function (evt){
+										//idx.search(document.querySelector('.search-box input').value);
+									});
+								</script>
+							</ul> 
+						</div> 
+					</nav> 
+				</div>
+			</header>
+			<div id="content">
+				<div class="top-banner"> 
+					<div class="initialTopBanner">
+						<div class="imgTopBanner" style="background-image: url(./images/banner_topo_news.jpg);"></div>
+						<div class="black-overlay"></div>
+						<div class="text-area">
+							<h1>NOTÍCIAS</h1>
+							<h3></h3>
+							<div class="description">Notícias do quotidiano do Agrupamento</div>
+						</div> 
+					</div> 
+				</div>
+				<div class="portlet-breadcrumb container-fluid">
+					<ul class="breadcrumb breadcrumb-vertical">
+						<li class="first">
+							<a href="./">Home</a>
+							<span>&gt;</span>
+						</li>
+						<li class="active last">
+							<a href="./news6.html">Notícias</a>
+							<span>&gt;</span>
+						</li> 
+					</ul>
+				</div>
+				<div id="listNoticiasWrapper">
+					<div class="maniFluid">
+						<div class="row-fluid">
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+									<div class="blue-overlay"></div>
+									<img alt="Noticia 1 Foto" src="https://static.wixstatic.com/media/5d46ae_0f2f2f4aa4cf4d6abea2760e1041a9c4~mv2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_0f2f2f4aa4cf4d6abea2760e1041a9c4~mv2.jpg"> </div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>06 Novembro 2018</span>
+									</div>
+									<div class="lead3">A terra Tremeu</div>
+									<div class="p2">Ontem às 11:05 o exercício nacional de sensibilização para o risco sísmico "A Terra Treme" voltou a realizar-se no nosso agrupamento, para sensibilizar a população escolar sobre o que fazer em caso de sismo. Os alunos, docentes e não docentes executaram os três gestos de autoproteção: Baixar, proteger e aguardar.
+                                        O simulacro foi um sucesso!</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<a href="https://www.yumpu.com/pt/document/view/62179967/acontece"><img alt="Noticia 2 Foto" src="https://static.wixstatic.com/media/5d46ae_94d03ce440444b139a652a0f9549ecfa~mv2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_94d03ce440444b139a652a0f9549ecfa~mv2.jpg"></a>
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>31 Outubro 2018</span>
+									</div>
+									<div class="lead3">AconTEcE</div>
+									<div class="p2">Acontece... numa folha o resumo das nossas atividades mensais!</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 3 Foto" src="https://static.wixstatic.com/media/5d46ae_270859549f1d4100917038a54a12c4e6~mv2.png/v1/fill/w_431,h_225,al_c,lg_1,q_85/5d46ae_270859549f1d4100917038a54a12c4e6~mv2.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>26 Outubro 2018</span>
+									</div>
+									<div class="lead3">Orientação</div>
+									<div class="p2">Decorreu no dia 27 de Outubro na Zambujeira - S. Luís, “o” Meeting, prova referente à Taça de Portugal Vitalis de Orientação Pedestre.  Esta prova teve a participação dos nosso alunos, Lucas Gonçalves e Diogo Loures que efetuaram a etapa 1 PROM 3- fácil longo</div>
+								</a>
+							</div>
+						</div>
+						<div class="row-fluid twoLinesCopy">
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 4 Foto" src="https://static.wixstatic.com/media/5d46ae_a77adc14abc547ab84f6b8efa1de503b~mv2_d_3968_2976_s_4_2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_a77adc14abc547ab84f6b8efa1de503b~mv2_d_3968_2976_s_4_2.jpg">
+										</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>26 Outubro 2018</span>
+									</div>
+									<div class="lead3">Missão Continente</div>
+									<div class="p2">Nos dias 27 e 28 de outubro os nossos jovens exerceram o seu dever cívico em prol das famílias mais carenciadas do nosso concelho, recolhendo alimentos com a Delegação da Cruz Vermelha Portuguesa de Colos</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="video-icon"><i class="icon-film"></i></div>
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 5 Foto" src="https://static.wixstatic.com/media/5d46ae_161889e3baf7487788cd43262a543699~mv2_d_1600_1200_s_2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_161889e3baf7487788cd43262a543699~mv2_d_1600_1200_s_2.jpg">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>22 Outubro 2018</span>
+									</div>
+									<div class="lead3">Corta Mato</div>
+									<div class="p2">Realizou-se no dia 23 de Outubro o Corta Mato Escolar com a finalidade de apurar os primeiros quatro classificados de cada escalão para representação da escola no Corta Mato concelhio de Odemira</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 6 Foto" src="https://static.wixstatic.com/media/5d46ae_36272b91fa884535aab080199b865c46~mv2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_36272b91fa884535aab080199b865c46~mv2.jpg">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>15 Outubro 2018</span>
+									</div>
+									<div class="lead3">Conhecer outros sabores</div>
+									<div class="p2">O Projeto teve início no dia 16 de outubro, “Dia Mundial da Alimentação” e consta de uma banca com alguns alimentos (crus ou cozinhados) que serão disponibilizados, de forma gratuita, para prova por parte dos alunos e outros elementos da comunidade escolar.
+                                        A banca estará no espaço do bufete e funcionará, salvo alguma exceção, todos os meses, na 2ª terça feira de cada mês, ver cartazes afixados no espaço escolar</div>
+								</a>
+							</div>
+						</div>
+						<div class="row-fluid twoLinesCopy">
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 7 Foto" src="https://static.wixstatic.com/media/5d46ae_1dd965785fc34b1998689ac7a9c1da0b~mv2_d_4032_3024_s_4_2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_1dd965785fc34b1998689ac7a9c1da0b~mv2_d_4032_3024_s_4_2.jpg">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>10 Outubro 2018</span>
+									</div>
+									<div class="lead3">Aula de BodyBoard</div>
+									<div class="p2">Realizou-se no dia 10 de Outubro, na praia da Zambujeira do Mar uma aula de BodyBoard, atividade organizada pelos professores de Educação Física, em articulação com o centro de atividade náuticas de Odemira</div>
+								</a>
+							</div>
+							<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 8 Foto" src="https://static.wixstatic.com/media/5d46ae_708ed08304794d8db19d33bdb197d85c~mv2_d_4032_2712_s_4_2.jpg/v1/fill/w_537,h_280,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_708ed08304794d8db19d33bdb197d85c~mv2_d_4032_2712_s_4_2.jpg">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>02 Outubro 2018</span>
+									</div>
+									<div class="lead3">Jogo Futsal</div>
+									<div class="p2">Realizou-se no dia 3 de Outubro o jogo de Futsal professores vs alunos, atividade organizada pelo grupo de Educação Física. O jogo contou com a presença de alguns professores e alunos das várias turmas</div>
+								</a>
+							</div>
+							<!--<div class="span4">
+								<a href="javascript:void(0);">
+									<div class="image-wrapper">
+										<div class="blue-overlay"></div>
+										<img alt="Noticia 9 Foto" src="./images/noticia_9.png">
+									</div>
+									<div class="date-wrapper">
+										<i class="icon-calendar"></i><span>26 AGOSTO 2016</span>
+									</div>
+									<div class="lead3">Título da Notícia 9</div>
+									<div class="p2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam...</div>
+								</a>
+							</div>-->
+						</div>
+					</div>
+				</div>
+				<div class="pages-wrapper">
+					<a href="news5.html"><i class="icon-long-arrow-left">&nbsp;</i></a>
+					<a class="page" href="news.html"><span>1</span></a>
+					<a class="page" href="news1.html"><span>2</span></a>
+					<a class="page" href="news2.html"><span>3</span></a>
+					<a class="page" href="news3.html"><span>4</span></a>
+					<a class="page" href="news4.html"><span>5</span></a>
+                    <a class="page" href="news5.html"><span>6</span></a>
+                    <a class="page active" href="javascript:void(0);"><span>7</span></a>
+					<a href="javascript:void(0);"><i class="icon-long-arrow-right">&nbsp;</i></a>
+				</div>
+			</div>
+			<div id="newsletterWrapper">
+                <div class="newsletter-wrapper" style="text-align: center">
+                    <div class="newsletter-box">
+                        <a href="https://6c6ceda1-6b8d-42b2-bfc3-90984dd94c5a.filesusr.com/ugd/5d46ae_54b4e5cba8da446990f0e9031d54da35.pdf" target="_blank">
+                            <i class="icon-envelope-alt">&nbsp;</i>
+                            <span>Newsletter</span>
+                        </a> 
+                    </div>
+                </div>
+            </div>
+			<footer id="footer" style="padding:0 !important">
+				<div id="copyright">
+					<div class="container-fluid">
+						<div class="row-fluid footer-images-wrapper">
+							<div class="span2"> <a href="https://aecolos.edu.gov.pt/moodle/" target="_blank"><img alt="Moodle" src="https://static.wixstatic.com/media/5d46ae_0f9df6003e684be4a33c0c8a7813aa57~mv2.jpg/v1/fill/w_82,h_60,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_0f9df6003e684be4a33c0c8a7813aa57~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/inovaralunos/Inicial.wgx" target="_blank"><img alt="Inovar Alunos" src="https://static.wixstatic.com/media/5d46ae_3fed0dd6e7c448b492505b2ac65a7a92~mv2.jpg/v1/fill/w_205,h_68,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_3fed0dd6e7c448b492505b2ac65a7a92~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/inovarpaa/Inicial.wgx" target="_blank"><img alt="Inovar PAA" src="https://static.wixstatic.com/media/5d46ae_a38d4a09b0644f9e8b6308432696da48~mv2.jpg/v1/fill/w_205,h_70,al_c,q_80,usm_0.66_1.00_0.01/5d46ae_a38d4a09b0644f9e8b6308432696da48~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/inovarconsulta/app/index.html#/login" target="_blank"><img alt="Inovar Consulta" src="https://static.wixstatic.com/media/5d46ae_753ed5f26eea40a5a6337f08afae7c07~mv2.jpg/v1/fill/w_210,h_60,al_c,lg_1,q_80/5d46ae_753ed5f26eea40a5a6337f08afae7c07~mv2.webp"></a> </div>
+							<div class="span2"> <a href="https://inovar.aecolos.pt/PortalUnicard" target="_blank"><img alt="Unicard" src="https://static.wixstatic.com/media/5d46ae_7d6968238a7e4129a4c6bc33300b50fd~mv2.png/v1/fill/w_199,h_89,al_c,q_85,usm_0.66_1.00_0.01/Unicard.webp"></a> </div>
+						</div>
+						<!--footer images -->
+						<div class="row-fluid">
+							<div class="span12">
+								<p>@2021 <strong>AEColos - Agrupamento de Escolas de Colos</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+		<div class="toTop"><i class="icon-angle-up"></i></div>
+
+		<script type="text/javascript" src="./js/jquery.bxslider.min.js"></script>
+		<script type="text/javascript" src="./js/select2.full.min.js"></script>
+		<script type="text/javascript" src="./js/main.js"></script>
+		<script>
+			//page.base('/prof');
+			page('/prof/:prof', function(ctx){
+				if(ctx.params.prof === 'aecolos')
+					page('/prof');
+			});
+			page();
+		</script>
+		<script>
+			let shroot = document.querySelector('#submenu').attachShadow({mode:'open'});
+			//let shcal = document.querySelector('#calwrap').attachShadow({mode:'open'});
+			fetch("./tmpls.html").then(function(resp){
+				resp.text().then(function(txt){
+					shroot.appendChild(jQuery.parseHTML(txt)[2].content.cloneNode(true));
+					//shcal.appendChild(jQuery.parseHTML(txt)[8].content.cloneNode(true));
+				});
+			});
+			//shroot.appendChild(document.querySelector('#tmpl_logform').content.cloneNode(true));
+		</script>
+		<script type="text/javascript">
+			userbase.init({ appId: 'f98d4fda-0171-466a-80a5-aa23799653c9' })
+		</script>
+</html>

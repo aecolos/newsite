@@ -1,0 +1,37 @@
+<template class="tab-pane fade" role="tabpanel" id="login">
+    <link href="../../../webauthn-yubiclone-master/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../../../webauthn-yubiclone-master/css/bootstrap-webauthn.css" rel="stylesheet">
+    <!-- for logo on advanced menu -->
+    <link href="../../../webauthn-yubiclone-master/css/fontawesome-all.css" rel="stylesheet">
+    <script src="../../../webauthn-yubiclone-master/js/jquery-3.3.1.min.js"></script>
+    <script src="../../../webauthn-yubiclone-master/js/bootstrap.min.js"></script>
+    <!-- this can't be a local file - it loads buttons.html which will fail CORS if this is a local JS file -->
+    <script src="https://buttons.github.io/buttons.js"></script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h6>Log in to Account Using WebAuthn</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <form id="login-form" name="login-form" method="post">
+                    <br>
+                    <input type="text" name="username" placeholder="Username" autofocus="autofocus">
+                    <br>
+                    <br>
+                    <input type="submit" id="loginButton" class="btn btn-success" value="Login">
+                </form>
+            </div>
+            <!--<div class="col-md-6">
+                <p>If you've completed the registration step, you can authenticate yourself using the form to the left. In the next step your WebAuthn device will be authenticated.</p>
+            </div>-->
+        </div>
+    </div>
+    <script src="../../../webauthn-yubiclone-master/js/ux-events.js"></script>
+    <script src="../../../webauthn-yubiclone-master/js/webauthn-simple-app/webauthn-simple-app.js"></script>
+</template>
+<script>
+    let shroot = document.querySelector('#layout_2 > div.sub-menu').attachShadow({mode: 'open'});
+    shroot.appendChild(document.querySelector('#login').content);
+</script>
