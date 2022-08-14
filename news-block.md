@@ -11,7 +11,7 @@ layout: main
             <div class="span4">
                 <a href={{item.url}} target="_blank">
                     <div class="image-wrapper">
-                    <div class="blue-overlay">{{post.splash}}</div>
+                    <div class="blue-overlay"></div>
                     <img alt="Noticia 1 Foto" src={{site.baseurl}}{{item.splash}}> </div>
                     <div class="date-wrapper">
                         <i class="icon-calendar"></i><span>{{post.date | date:"%b %d"}}</span>
